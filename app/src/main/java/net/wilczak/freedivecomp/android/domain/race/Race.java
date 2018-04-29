@@ -3,7 +3,7 @@ package net.wilczak.freedivecomp.android.domain.race;
 import org.joda.time.DateTime;
 
 public class Race {
-    public static final Race MISSING = new Race(null);
+    public static final Race MISSING = new Race((String)null);
 
     private final String raceId;
     private String name;
@@ -17,6 +17,18 @@ public class Race {
 
     public Race(String raceId) {
         this.raceId = raceId;
+    }
+
+    public Race(Race original) {
+        this.raceId = original.raceId;
+        this.name = original.name;
+        this.since = original.since;
+        this.until = original.until;
+        this.connectCode = original.connectCode;
+        this.authenticationToken = original.authenticationToken;
+        this.uri = original.uri;
+        this.selected = original.selected;
+        this.saved = original.saved;
     }
 
     public boolean isMissing() {
