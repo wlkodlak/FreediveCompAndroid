@@ -11,6 +11,14 @@ android {
         versionName "0.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "room.schemaLocation": "$projectDir/schemas".toString()
+                ]
+            }
+        }
     }
     dataBinding {
         enabled = true
@@ -47,9 +55,9 @@ dependencies {
     implementation 'com.annimon:stream:1.2.0'
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     implementation 'android.arch.lifecycle:reactivestreams:1.1.1'
-    annotationProcessor 'android.arch.lifecycle:compiler:1.1.1'
-    implementation 'android.arch.persistence.room:runtime:1.0.0'
-    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
+    implementation 'android.arch.lifecycle:common-java8:1.1.1'
+    implementation 'android.arch.persistence.room:runtime:1.1.0-beta3'
+    annotationProcessor "android.arch.persistence.room:compiler:1.1.0-beta3"
     testImplementation 'android.arch.core:core-testing:1.1.1'
     testImplementation 'android.arch.persistence.room:testing:1.0.0'
     implementation 'android.arch.persistence.room:rxjava2:1.0.0'

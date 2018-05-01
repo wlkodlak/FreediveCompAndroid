@@ -2,10 +2,12 @@ package net.wilczak.freedivecomp.android.room;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 @Entity(tableName = "race")
 public class RaceEntity {
     @PrimaryKey
+    @NonNull
     private final String raceId;
     private String name;
     private long since;
@@ -27,62 +29,55 @@ public class RaceEntity {
         return name;
     }
 
-    public RaceEntity setName(String name) {
+    public void setName(String name) {
         this.name = name;
-        return this;
     }
 
     public long getSince() {
         return since;
     }
 
-    public RaceEntity setSince(long since) {
+    public void setSince(long since) {
         this.since = since;
-        return this;
     }
 
     public long getUntil() {
         return until;
     }
 
-    public RaceEntity setUntil(long until) {
+    public void setUntil(long until) {
         this.until = until;
-        return this;
     }
 
     public String getUri() {
         return uri;
     }
 
-    public RaceEntity setUri(String uri) {
+    public void setUri(String uri) {
         this.uri = uri;
-        return this;
     }
 
     public String getConnectCode() {
         return connectCode;
     }
 
-    public RaceEntity setConnectCode(String connectCode) {
+    public void setConnectCode(String connectCode) {
         this.connectCode = connectCode;
-        return this;
     }
 
     public String getAuthenticationToken() {
         return authenticationToken;
     }
 
-    public RaceEntity setAuthenticationToken(String authenticationToken) {
+    public void setAuthenticationToken(String authenticationToken) {
         this.authenticationToken = authenticationToken;
-        return this;
     }
 
     public boolean isSelected() {
         return selected;
     }
 
-    public RaceEntity setSelected(boolean selected) {
+    public void setSelected(boolean selected) {
         this.selected = selected;
-        return this;
     }
 }

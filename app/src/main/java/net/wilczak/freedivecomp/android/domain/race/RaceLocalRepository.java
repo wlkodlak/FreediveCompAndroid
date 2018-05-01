@@ -80,14 +80,15 @@ public class RaceLocalRepository implements RaceRepository {
     }
 
     private RaceEntity toEntity(Race race) {
-        return new RaceEntity(race.getRaceId())
-                .setAuthenticationToken(race.getAuthenticationToken())
-                .setConnectCode(race.getConnectCode())
-                .setName(race.getName())
-                .setSelected(race.isSelected())
-                .setSince(race.getSince().getMillis())
-                .setUntil(race.getUntil().getMillis())
-                .setUri(race.getUri());
+        RaceEntity entity = new RaceEntity(race.getRaceId());
+        entity.setAuthenticationToken(race.getAuthenticationToken());
+        entity.setConnectCode(race.getConnectCode());
+        entity.setName(race.getName());
+        entity.setSelected(race.isSelected());
+        entity.setSince(race.getSince().getMillis());
+        entity.setUntil(race.getUntil().getMillis());
+        entity.setUri(race.getUri());
+        return entity;
     }
 
     private Race fromEntity(RaceEntity race) {

@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="net.wilczak.freedivecomp.android.enterresult.EnterResultViewModel" />
+            type="net.wilczak.freedivecomp.android.ui.enterresult.EnterResultViewModel" />
 
     </data>
 

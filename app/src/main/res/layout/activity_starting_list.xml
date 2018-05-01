@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="net.wilczak.freedivecomp.android.startinglist.StartingListViewModel" />
+            type="net.wilczak.freedivecomp.android.ui.startinglist.StartingListViewModel" />
 
     </data>
 

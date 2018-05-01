@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 @Entity(tableName = "start")
 public class StartEntity {
     @PrimaryKey(autoGenerate = true)
+    @NonNull
     private long id;
     @NonNull
     private String raceId;
@@ -25,9 +26,8 @@ public class StartEntity {
         return id;
     }
 
-    public StartEntity setId(long id) {
+    public void setId(long id) {
         this.id = id;
-        return this;
     }
 
     @NonNull
@@ -35,9 +35,8 @@ public class StartEntity {
         return raceId;
     }
 
-    public StartEntity setRaceId(@NonNull String raceId) {
+    public void setRaceId(@NonNull String raceId) {
         this.raceId = raceId;
-        return this;
     }
 
     @NonNull
@@ -45,9 +44,8 @@ public class StartEntity {
         return startingLaneId;
     }
 
-    public StartEntity setStartingLaneId(@NonNull String startingLaneId) {
+    public void setStartingLaneId(@NonNull String startingLaneId) {
         this.startingLaneId = startingLaneId;
-        return this;
     }
 
     @NonNull
@@ -55,9 +53,8 @@ public class StartEntity {
         return athleteId;
     }
 
-    public StartEntity setAthleteId(@NonNull String athleteId) {
+    public void setAthleteId(@NonNull String athleteId) {
         this.athleteId = athleteId;
-        return this;
     }
 
     @NonNull
@@ -65,9 +62,8 @@ public class StartEntity {
         return disciplineId;
     }
 
-    public StartEntity setDisciplineId(@NonNull String disciplineId) {
+    public void setDisciplineId(@NonNull String disciplineId) {
         this.disciplineId = disciplineId;
-        return this;
     }
 
     @NonNull
@@ -75,9 +71,8 @@ public class StartEntity {
         return resultStatus;
     }
 
-    public StartEntity setResultStatus(@NonNull String resultStatus) {
+    public void setResultStatus(@NonNull String resultStatus) {
         this.resultStatus = resultStatus;
-        return this;
     }
 
     @NonNull
@@ -85,8 +80,7 @@ public class StartEntity {
         return startJson;
     }
 
-    public StartEntity setStartJson(@NonNull String startJson) {
+    public void setStartJson(@NonNull String startJson) {
         this.startJson = startJson;
-        return this;
     }
 }

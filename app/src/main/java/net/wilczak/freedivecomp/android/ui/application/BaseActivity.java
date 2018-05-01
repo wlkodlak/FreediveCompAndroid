@@ -35,7 +35,7 @@ public abstract class BaseActivity<TViewModel extends BaseViewModel> extends App
             FreediveApplication application = (FreediveApplication) getApplication();
             component = DaggerActivityComponent.builder()
                     .applicationComponent(application.getComponent())
-                    .activityModule(new ActivityModule(this))
+                    //.activityModule(new ActivityModule(this))
                     .build();
         }
         return component;
