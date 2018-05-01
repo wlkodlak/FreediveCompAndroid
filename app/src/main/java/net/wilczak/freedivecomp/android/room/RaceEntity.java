@@ -6,7 +6,7 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity(tableName = "race")
 public class RaceEntity {
     @PrimaryKey
-    private String raceId;
+    private final String raceId;
     private String name;
     private long since;
     private long until;

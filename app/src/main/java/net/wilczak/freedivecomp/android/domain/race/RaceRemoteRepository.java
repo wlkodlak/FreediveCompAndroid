@@ -2,8 +2,8 @@ package net.wilczak.freedivecomp.android.domain.race;
 
 import com.annimon.stream.Stream;
 
-import net.wilczak.freedivecomp.android.retrofit.RaceSearchResultDto;
-import net.wilczak.freedivecomp.android.retrofit.RemoteService;
+import net.wilczak.freedivecomp.android.remote.messages.RaceSearchResultDto;
+import net.wilczak.freedivecomp.android.remote.remoteservice.RemoteService;
 
 import java.util.List;
 

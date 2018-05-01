@@ -8,4 +8,7 @@ import net.wilczak.freedivecomp.android.domain.race.Race;
 @Database(entities = {Race.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract RaceDao raceDao();
+    public abstract RulesDao rulesDao();
+    public abstract StartDao startDao();
+    public abstract StartingLanesDao startingLanesDao();
 }
