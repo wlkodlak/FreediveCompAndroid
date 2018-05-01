@@ -1,7 +1,6 @@
 package net.wilczak.freedivecomp.android.domain.rules;
 
 import net.wilczak.freedivecomp.android.domain.race.Race;
-import net.wilczak.freedivecomp.android.remote.remoteservice.RemoteServiceProvider;
 import net.wilczak.freedivecomp.android.remote.messages.RulesDto;
 
 import java.util.List;
@@ -13,13 +12,12 @@ import io.reactivex.Single;
 public class RulesCompositeRepository implements RulesRepository {
     private static final Object NOTHING = new Object();
 
-    private final RulesRepository localRepository;
-    private final RemoteServiceProvider remoteServiceProvider;
+    private final RulesRepository localRepository, remoteRepository;
     private final ConcurrentHashMap<String, Object> refreshingRaces;
 
-    public RulesCompositeRepository(RulesRepository localRepository, RemoteServiceProvider remoteServiceProvider) {
+    public RulesCompositeRepository(RulesRepository localRepository, RulesRepository remoteRepository) {
         this.localRepository = localRepository;
-        this.remoteServiceProvider = remoteServiceProvider;
+        this.remoteRepository = remoteRepository;
         this.refreshingRaces = new ConcurrentHashMap<>();
     }
 
@@ -40,7 +38,7 @@ public class RulesCompositeRepository implements RulesRepository {
     }
 
     private Single<List<RulesDto>> getRemoteRules(Race race) {
-        return remoteServiceProvider.getService(race.getUri()).getRules();
+        return remoteRepository.getRules(race);
     }
 
     private Single<List<RulesDto>> getLocalRules(Race race) {

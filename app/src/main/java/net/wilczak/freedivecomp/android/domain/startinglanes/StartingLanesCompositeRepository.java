@@ -2,30 +2,47 @@ package net.wilczak.freedivecomp.android.domain.startinglanes;
 
 import net.wilczak.freedivecomp.android.domain.race.Race;
 import net.wilczak.freedivecomp.android.remote.messages.StartingLaneDto;
-import net.wilczak.freedivecomp.android.remote.remoteservice.RemoteServiceProvider;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 
 public class StartingLanesCompositeRepository implements StartingLanesRepository {
     private static final Object NOTHING = new Object();
 
-    private final RemoteServiceProvider remoteServiceProvider;
     private final StartingLanesRepository localRepository;
+    private final StartingLanesRepository remoteRepository;
     private final ConcurrentHashMap<String, Object> refreshingRaces;
 
-    public StartingLanesCompositeRepository(RemoteServiceProvider remoteServiceProvider, StartingLanesRepository localRepository) {
-        this.remoteServiceProvider = remoteServiceProvider;
+    public StartingLanesCompositeRepository(StartingLanesRepository localRepository, StartingLanesRepository remoteRepository) {
         this.localRepository = localRepository;
+        this.remoteRepository = remoteRepository;
         this.refreshingRaces = new ConcurrentHashMap<>();
     }
 
     @Override
     public Observable<List<StartingLaneDto>> getLanes(Race race) {
-        return null;
+        boolean needsRefresh = this.refreshingRaces.contains(race.getRaceId());
+        if (needsRefresh) {
+            return getRemoteLanesAndSave(race);
+        } else {
+            return localRepository
+                    .getLanes(race)
+                    .flatMap(list -> list.size() > 0 ? Observable.just(list) : getRemoteLanesAndSave(race));
+        }
+    }
+
+    private Observable<List<StartingLaneDto>> getRemoteLanesAndSave(Race race) {
+        return remoteRepository
+                .getLanes(race)
+                .flatMap(list -> saveListAndPassOn(race, list));
+    }
+
+    private ObservableSource<List<StartingLaneDto>> saveListAndPassOn(Race race, List<StartingLaneDto> list) {
+        return saveLanes(race, list).andThen(Observable.just(list));
     }
 
     @Override
