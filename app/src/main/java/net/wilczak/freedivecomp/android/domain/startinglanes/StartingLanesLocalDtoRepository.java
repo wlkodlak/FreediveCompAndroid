@@ -20,13 +20,13 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
-public class StartingLanesLocalRepository implements StartingLanesRepository {
+public class StartingLanesLocalDtoRepository implements StartingLanesDtoRepository {
     private final AppDatabase database;
     private final Gson gson;
     private final PublishSubject<String> changeNotification;
     private final ConcurrentHashMap<String, Observable<List<StartingLaneDto>>> observableLanes;
 
-    public StartingLanesLocalRepository(AppDatabase database) {
+    public StartingLanesLocalDtoRepository(AppDatabase database) {
         this.database = database;
         this.gson = new Gson();
         this.changeNotification = PublishSubject.create();
