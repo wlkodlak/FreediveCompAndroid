@@ -1,9 +1,11 @@
 package net.wilczak.freedivecomp.android.domain.race;
 
+import net.wilczak.freedivecomp.android.domain.rules.RulesRepository;
 import net.wilczak.freedivecomp.android.domain.startinglanes.StartingLanesRepository;
 import net.wilczak.freedivecomp.android.remote.messages.RaceSettingsDto;
 import net.wilczak.freedivecomp.android.remote.messages.RaceSetupDto;
-import net.wilczak.freedivecomp.android.remote.messages.StartingLaneDto;
+import net.wilczak.freedivecomp.android.remote.messages.RulesDto;
+import net.wilczak.freedivecomp.android.remote.remoteservice.RemoteService;
 import net.wilczak.freedivecomp.android.remote.remoteservice.RemoteServiceProvider;
 
 import java.util.List;
@@ -15,11 +17,13 @@ public class SelectRaceUseCase {
     private final RemoteServiceProvider remoteServiceProvider;
     private final RaceRepository raceRepository;
     private final StartingLanesRepository lanesRepository;
+    private final RulesRepository rulesRepository;
 
-    public SelectRaceUseCase(RemoteServiceProvider remoteServiceProvider, RaceRepository raceRepository, StartingLanesRepository lanesRepository) {
+    public SelectRaceUseCase(RemoteServiceProvider remoteServiceProvider, RaceRepository raceRepository, StartingLanesRepository lanesRepository, RulesRepository rulesRepository) {
         this.remoteServiceProvider = remoteServiceProvider;
         this.raceRepository = raceRepository;
         this.lanesRepository = lanesRepository;
+        this.rulesRepository = rulesRepository;
     }
 
     public Single<Race> selectRace(Race searchRace) {
@@ -41,45 +45,54 @@ public class SelectRaceUseCase {
     }
 
     private Single<Race> sync(Race reference) {
-
-        return remoteServiceProvider
-                .getService(reference.getUri())
-                .getRaceSetup(reference.getRaceId())
-                .zipWith(
-                        raceRepository.getSavedRace(reference.getRaceId()).firstOrError(),
-                        (setup, savedRace) -> new SyncSources(setup, savedRace == Race.MISSING ? reference : savedRace))
-                .flatMap(syncSources -> {
-                    RaceSettingsDto raceSettingsDto = syncSources.getSetup().getRace();
-                    List<StartingLaneDto> startingLaneDtos = syncSources.getSetup().getStartingLanes();
-
-                    Race updatedRace = new Race(syncSources.getRace())
-                            .setSaved(true)
-                            .setSelected(true)
-                            .setName(raceSettingsDto.getName())
-                            .setSince(raceSettingsDto.getStart())
-                            .setUntil(raceSettingsDto.getEnd());
-
-                    Completable raceSaving = raceRepository.saveRace(updatedRace);
-                    Completable lanesSaving = lanesRepository.saveLanes(updatedRace, startingLaneDtos);
-                    return raceSaving.andThen(lanesSaving).andThen(Single.just(updatedRace));
-                });
+        RemoteService remoteService = remoteServiceProvider.getService(reference.getUri());
+        Single<Race> referenceSingle = Single.just(reference);
+        Single<Race> savedRaceSingle = raceRepository.getSavedRace(reference.getRaceId()).firstOrError();
+        Single<RaceSetupDto> raceSetupSingle = remoteService.getRaceSetup(reference.getRaceId());
+        Single<List<RulesDto>> rulesSingle = remoteService.getRules();
+        return Single
+                .zip(referenceSingle, savedRaceSingle, raceSetupSingle, rulesSingle, SyncSources::new)
+                .flatMap(this::saveSynchronizedData);
     }
 
-    private static class SyncSources {
-        private final RaceSetupDto setup;
-        private final Race race;
+    private Single<Race> saveSynchronizedData(SyncSources syncSources) {
+        RaceSettingsDto raceSettingsDto = syncSources.getSetup().getRace();
+        Race updatedRace = new Race(syncSources.getRace())
+                .setSaved(true)
+                .setSelected(true)
+                .setName(raceSettingsDto.getName())
+                .setSince(raceSettingsDto.getStart())
+                .setUntil(raceSettingsDto.getEnd());
 
-        public SyncSources(RaceSetupDto setup, Race savedRace) {
+        Completable everythingSaved = Completable.concatArray(
+                raceRepository.saveRace(updatedRace),
+                lanesRepository.saveLanes(updatedRace, syncSources.getSetup().getStartingLanes()),
+                rulesRepository.saveRules(updatedRace, syncSources.getRules())
+        );
+        return everythingSaved.andThen(Single.just(updatedRace));
+    }
+
+    private class SyncSources {
+        private final Race race;
+        private final RaceSetupDto setup;
+        private final List<RulesDto> rules;
+
+        public SyncSources(Race reference, Race saved, RaceSetupDto setup, List<RulesDto> rules) {
+            this.race = saved == Race.MISSING ? reference : saved;
             this.setup = setup;
-            this.race = savedRace;
+            this.rules = rules;
+        }
+
+        public Race getRace() {
+            return race;
         }
 
         public RaceSetupDto getSetup() {
             return setup;
         }
 
-        public Race getRace() {
-            return race;
+        public List<RulesDto> getRules() {
+            return rules;
         }
     }
 }
