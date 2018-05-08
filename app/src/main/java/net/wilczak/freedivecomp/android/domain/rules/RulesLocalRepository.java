@@ -42,10 +42,6 @@ public class RulesLocalRepository implements RulesRepository {
         });
     }
 
-    @Override
-    public void requestRefresh(Race race) {
-    }
-
     private Type getListType() {
         return new TypeToken<ArrayList<RulesDto>>() {
         }.getType();

@@ -4,28 +4,29 @@ import com.annimon.stream.Stream;
 
 import net.wilczak.freedivecomp.android.remote.discovery.HostDiscovery;
 import net.wilczak.freedivecomp.android.remote.discovery.HostDiscoveryGlobal;
+import net.wilczak.freedivecomp.android.remote.messages.RaceSearchResultDto;
+import net.wilczak.freedivecomp.android.remote.remoteservice.RemoteService;
 import net.wilczak.freedivecomp.android.remote.remoteservice.RemoteServiceProvider;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
 
-public class RaceCompositeRepository implements RaceRepository {
+public class SearchRacesUseCase {
     private final HostDiscovery hostsSource;
     private final RemoteServiceProvider remoteServiceProvider;
     private final RaceRepository localRepository;
 
-    public RaceCompositeRepository(HostDiscovery hostsSource, RemoteServiceProvider remoteServiceProvider, RaceRepository localRepository) {
+    public SearchRacesUseCase(HostDiscovery hostsSource, RemoteServiceProvider remoteServiceProvider, RaceRepository localRepository) {
         this.hostsSource = hostsSource;
         this.remoteServiceProvider = remoteServiceProvider;
         this.localRepository = localRepository;
     }
 
-    @Override
     public Observable<List<Race>> search(String query) {
         if (query == null || query.length() == 0) {
             return discoverRaces();
@@ -37,8 +38,7 @@ public class RaceCompositeRepository implements RaceRepository {
     private Observable<List<Race>> discoverRaces() {
         return hostsSource
                 .getHosts()
-                .map(uri -> new RaceRemoteRepository(remoteServiceProvider.getService(uri)))
-                .flatMap(repo -> repo.search(null))
+                .flatMap(uri -> searchRemote(uri, null))
                 .scan(Collections.emptyMap(), this::indexMoreRaces)
                 .withLatestFrom(
                         localRepository.getSavedRaces().map(this::indexRaces),
@@ -48,13 +48,31 @@ public class RaceCompositeRepository implements RaceRepository {
 
     private Observable<List<Race>> searchGlobally(String query) {
         return Observable.just(HostDiscoveryGlobal.DEFAULT_URI)
-                .map(uri -> new RaceRemoteRepository(remoteServiceProvider.getService(uri)))
-                .flatMap(repo -> repo.search(query))
+                .flatMap(uri -> searchRemote(uri, query))
                 .scan(Collections.emptyMap(), this::indexMoreRaces)
                 .withLatestFrom(
                         localRepository.getSavedRaces().map(this::indexRaces),
                         (inputRaces, savedRaces) -> mergeWithSaved(inputRaces, savedRaces, false))
                 .map(map -> Stream.of(map.values()).toList());
+    }
+
+    private Observable<List<Race>> searchRemote(String uri, String query) {
+        RemoteService remoteService = remoteServiceProvider.getService(uri);
+        return remoteService
+                .getGlobalSearch(query)
+                .toObservable()
+                .map(raceDtos -> {
+                    List<Race> races = new ArrayList<>();
+                    for (RaceSearchResultDto dto : raceDtos) {
+                        Race race = new Race(dto.getRaceId())
+                                .setUri(remoteService.getUri())
+                                .setName(dto.getName())
+                                .setSince(dto.getStart())
+                                .setUntil(dto.getEnd());
+                        races.add(race);
+                    }
+                    return races;
+                });
     }
 
     private Map<String, Race> indexMoreRaces(Map<String, Race> previousMap, List<Race> newRaces) {
@@ -91,25 +109,5 @@ public class RaceCompositeRepository implements RaceRepository {
                 .setName(found.getName())
                 .setSince(found.getSince())
                 .setUntil(found.getUntil());
-    }
-
-    @Override
-    public Observable<List<Race>> getSavedRaces() {
-        return localRepository.getSavedRaces();
-    }
-
-    @Override
-    public Observable<Race> getSavedRace(String raceId) {
-        return localRepository.getSavedRace(raceId);
-    }
-
-    @Override
-    public Completable saveRace(Race race) {
-        return localRepository.saveRace(race);
-    }
-
-    @Override
-    public Completable forgetRace(String raceId) {
-        return localRepository.forgetRace(raceId);
     }
 }

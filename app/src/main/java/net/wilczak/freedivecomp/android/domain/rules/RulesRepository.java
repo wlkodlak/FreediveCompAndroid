@@ -11,5 +11,4 @@ import io.reactivex.Single;
 public interface RulesRepository {
     Single<List<RulesDto>> getRules(Race race);
     Completable saveRules(Race race, List<RulesDto> rules);
-    void requestRefresh(Race race);
 }

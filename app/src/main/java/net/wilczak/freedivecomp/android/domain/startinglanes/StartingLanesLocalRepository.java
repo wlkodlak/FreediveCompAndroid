@@ -69,9 +69,4 @@ public class StartingLanesLocalRepository implements StartingLanesRepository {
         return new TypeToken<ArrayList<StartingLaneDto>>(){
         }.getType();
     }
-
-    @Override
-    public void requestRefresh(Race race) {
-        changeNotification.onNext(race.getRaceId());
-    }
 }

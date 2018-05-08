@@ -11,5 +11,4 @@ import io.reactivex.Observable;
 public interface StartingLanesRepository {
     Observable<List<StartingLaneDto>> getLanes(Race race);
     Completable saveLanes(Race race, List<StartingLaneDto> lanes);
-    void requestRefresh(Race race);
 }
