@@ -1,6 +1,7 @@
 package net.wilczak.freedivecomp.android.domain.race;
 
-import net.wilczak.freedivecomp.android.domain.rules.RulesRepository;
+import net.wilczak.freedivecomp.android.domain.rules.DisciplinesDtoRepository;
+import net.wilczak.freedivecomp.android.domain.rules.RulesDtoRepository;
 import net.wilczak.freedivecomp.android.domain.startinglanes.StartingLanesDtoRepository;
 import net.wilczak.freedivecomp.android.remote.messages.RaceSettingsDto;
 import net.wilczak.freedivecomp.android.remote.messages.RaceSetupDto;
@@ -17,13 +18,20 @@ public class SelectRaceUseCaseImpl implements SelectRaceUseCase {
     private final RemoteServiceProvider remoteServiceProvider;
     private final RaceRepository raceRepository;
     private final StartingLanesDtoRepository lanesRepository;
-    private final RulesRepository rulesRepository;
+    private final RulesDtoRepository rulesRepository;
+    private final DisciplinesDtoRepository disciplinesRepository;
 
-    public SelectRaceUseCaseImpl(RemoteServiceProvider remoteServiceProvider, RaceRepository raceRepository, StartingLanesDtoRepository lanesRepository, RulesRepository rulesRepository) {
+    public SelectRaceUseCaseImpl(
+            RemoteServiceProvider remoteServiceProvider,
+            RaceRepository raceRepository,
+            StartingLanesDtoRepository lanesRepository,
+            RulesDtoRepository rulesRepository,
+            DisciplinesDtoRepository disciplinesRepository) {
         this.remoteServiceProvider = remoteServiceProvider;
         this.raceRepository = raceRepository;
         this.lanesRepository = lanesRepository;
         this.rulesRepository = rulesRepository;
+        this.disciplinesRepository = disciplinesRepository;
     }
 
     @Override
@@ -69,7 +77,8 @@ public class SelectRaceUseCaseImpl implements SelectRaceUseCase {
         Completable everythingSaved = Completable.concatArray(
                 raceRepository.saveRace(updatedRace),
                 lanesRepository.saveLanes(updatedRace, syncSources.getSetup().getStartingLanes()),
-                rulesRepository.saveRules(updatedRace, syncSources.getRules())
+                rulesRepository.saveRules(updatedRace, syncSources.getRules()),
+                disciplinesRepository.saveDisciplines(updatedRace, syncSources.getSetup().getDisciplines())
         );
         return everythingSaved.andThen(Single.just(updatedRace));
     }

@@ -8,7 +8,7 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
-public interface RulesRepository {
+public interface RulesDtoRepository {
     Single<List<RulesDto>> getRules(Race race);
     Completable saveRules(Race race, List<RulesDto> rules);
 }

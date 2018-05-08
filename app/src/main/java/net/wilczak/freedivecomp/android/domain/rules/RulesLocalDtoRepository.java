@@ -15,11 +15,11 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
-public class RulesLocalRepository implements RulesRepository {
+public class RulesLocalDtoRepository implements RulesDtoRepository {
     private final AppDatabase database;
     private final Gson gson;
 
-    public RulesLocalRepository(AppDatabase database) {
+    public RulesLocalDtoRepository(AppDatabase database) {
         this.database = database;
         this.gson = new Gson();
     }
