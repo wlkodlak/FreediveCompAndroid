@@ -6,6 +6,8 @@ import net.wilczak.freedivecomp.android.remote.messages.ReportActualResultDto;
 import net.wilczak.freedivecomp.android.remote.messages.ReportStartTimesDto;
 
 public class Start {
+    public static final Start MISSING = new Start().setState(StartState.MISSING).freeze();
+
     private boolean frozen;
     private long internalId;
     private StartState state;
@@ -154,6 +156,10 @@ public class Start {
         assertMutable();
         this.localResult = localResult;
         return this;
+    }
+
+    public boolean exists() {
+        return state != StartState.MISSING;
     }
 
     public enum StartState {
