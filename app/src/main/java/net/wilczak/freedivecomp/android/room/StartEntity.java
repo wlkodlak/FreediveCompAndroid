@@ -3,6 +3,7 @@ package net.wilczak.freedivecomp.android.room;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 @Entity(tableName = "start")
 public class StartEntity {
@@ -12,8 +13,6 @@ public class StartEntity {
     @NonNull
     private String raceId;
     @NonNull
-    private String startingLaneId;
-    @NonNull
     private String athleteId;
     @NonNull
     private String disciplineId;
@@ -21,6 +20,8 @@ public class StartEntity {
     private String resultStatus;
     @NonNull
     private String startJson;
+    @Nullable
+    private String resultJson;
 
     public long getId() {
         return id;
@@ -37,15 +38,6 @@ public class StartEntity {
 
     public void setRaceId(@NonNull String raceId) {
         this.raceId = raceId;
-    }
-
-    @NonNull
-    public String getStartingLaneId() {
-        return startingLaneId;
-    }
-
-    public void setStartingLaneId(@NonNull String startingLaneId) {
-        this.startingLaneId = startingLaneId;
     }
 
     @NonNull
@@ -82,5 +74,14 @@ public class StartEntity {
 
     public void setStartJson(@NonNull String startJson) {
         this.startJson = startJson;
+    }
+
+    @Nullable
+    public String getResultJson() {
+        return resultJson;
+    }
+
+    public void setResultJson(@Nullable String resultJson) {
+        this.resultJson = resultJson;
     }
 }

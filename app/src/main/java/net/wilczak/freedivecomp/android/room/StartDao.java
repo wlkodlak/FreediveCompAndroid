@@ -15,11 +15,11 @@ public abstract class StartDao {
     public abstract long insert(StartEntity entity);
     @Delete
     public abstract void delete(StartEntity entity);
-    @Query("SELECT * FROM start WHERE raceId = :raceId AND startingLaneId = :startingLaneId")
-    public abstract List<StartEntity> getAllForRace(String raceId, String startingLaneId);
+    @Query("SELECT * FROM start WHERE raceId = :raceId")
+    public abstract List<StartEntity> getAllForRace(String raceId);
     @Query("SELECT * FROM start WHERE id = :id LIMIT 1")
-    public abstract StartEntity getById(int id);
-    @Query("SELECT * FROM start WHERE raceId = :raceId AND startingLaneId = :startingLaneId AND athleteId = :athleteId AND disciplineId = :disciplineId LIMIT 1")
-    public abstract StartEntity getByAthlete(String raceId, String startingLaneId, String athleteId, String disciplineId);
+    public abstract StartEntity getById(long id);
+    @Query("SELECT * FROM start WHERE raceId = :raceId AND athleteId = :athleteId AND disciplineId = :disciplineId LIMIT 1")
+    public abstract StartEntity getByAthlete(String raceId, String athleteId, String disciplineId);
 
 }
