@@ -25,6 +25,7 @@ public class Start {
 
     private Start(Start original) {
         this.frozen = false;
+        this.internalId = original.internalId;
         this.state = original.state;
         this.athleteId = original.athleteId;
         this.disciplineId = original.disciplineId;
@@ -159,13 +160,14 @@ public class Start {
     }
 
     public boolean exists() {
-        return state != StartState.MISSING;
+        return state != StartState.MISSING && state != StartState.GONE;
     }
 
     public enum StartState {
         MISSING,
         READY,
         PENDING,
-        REJECTED
+        REJECTED,
+        GONE
     }
 }

@@ -38,7 +38,11 @@ public class AuthenticateUseCaseImpl implements AuthenticateUseCase {
                     return remoteService.postAuthenticate(previousStatus.getRace().getRaceId(), request).toObservable();
                 })
                 .flatMap(response -> raceRepository.getSavedRace(previousStatus.getRaceId()).take(1).flatMap(loaded -> {
-                    Race savedRace = new Race(loaded).setAuthenticationToken(response.getAuthenticationToken()).setConnectCode(response.getConnectCode());
+                    Race savedRace = new Race(loaded)
+                            .setAuthenticationToken(response.getAuthenticationToken())
+                            .setJudgeId(response.getJudgeId())
+                            .setJudgeName(response.getJudgeName())
+                            .setConnectCode(response.getConnectCode());
                     State newState = response.getAuthenticationToken() == null ? State.BETWEEN_ATTEMPTS : State.AUTHENTICATED;
                     return raceRepository
                             .saveRace(savedRace)

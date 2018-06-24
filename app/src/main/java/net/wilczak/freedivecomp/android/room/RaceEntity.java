@@ -15,6 +15,8 @@ public class RaceEntity {
     private String uri;
     private String connectCode;
     private String authenticationToken;
+    private String judgeId;
+    private String judgeName;
     private boolean selected;
 
     public RaceEntity(String raceId) {
@@ -71,6 +73,22 @@ public class RaceEntity {
 
     public void setAuthenticationToken(String authenticationToken) {
         this.authenticationToken = authenticationToken;
+    }
+
+    public String getJudgeId() {
+        return judgeId;
+    }
+
+    public void setJudgeId(String judgeId) {
+        this.judgeId = judgeId;
+    }
+
+    public String getJudgeName() {
+        return judgeName;
+    }
+
+    public void setJudgeName(String judgeName) {
+        this.judgeName = judgeName;
     }
 
     public boolean isSelected() {

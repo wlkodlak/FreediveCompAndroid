@@ -11,6 +11,8 @@ public class Race {
     private DateTime until;
     private String connectCode;
     private String authenticationToken;
+    private String judgeId;
+    private String judgeName;
     private String uri;
     private boolean selected;
     private boolean saved;
@@ -26,6 +28,8 @@ public class Race {
         this.until = original.until;
         this.connectCode = original.connectCode;
         this.authenticationToken = original.authenticationToken;
+        this.judgeId = original.judgeId;
+        this.judgeName = original.judgeName;
         this.uri = original.uri;
         this.selected = original.selected;
         this.saved = original.saved;
@@ -63,6 +67,14 @@ public class Race {
         return authenticationToken;
     }
 
+    public String getJudgeId() {
+        return judgeId;
+    }
+
+    public String getJudgeName() {
+        return judgeName;
+    }
+
     public boolean isSelected() {
         return selected;
     }
@@ -98,6 +110,16 @@ public class Race {
 
     public Race setAuthenticationToken(String authenticationToken) {
         this.authenticationToken = authenticationToken;
+        return this;
+    }
+
+    public Race setJudgeId(String judgeId) {
+        this.judgeId = judgeId;
+        return this;
+    }
+
+    public Race setJudgeName(String judgeName) {
+        this.judgeName = judgeName;
         return this;
     }
 

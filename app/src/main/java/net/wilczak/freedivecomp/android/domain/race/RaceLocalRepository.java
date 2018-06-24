@@ -82,6 +82,8 @@ public class RaceLocalRepository implements RaceRepository {
     private RaceEntity toEntity(Race race) {
         RaceEntity entity = new RaceEntity(race.getRaceId());
         entity.setAuthenticationToken(race.getAuthenticationToken());
+        entity.setJudgeId(race.getJudgeId());
+        entity.setJudgeName(race.getJudgeName());
         entity.setConnectCode(race.getConnectCode());
         entity.setName(race.getName());
         entity.setSelected(race.isSelected());
@@ -94,6 +96,8 @@ public class RaceLocalRepository implements RaceRepository {
     private Race fromEntity(RaceEntity race) {
         return new Race(race.getRaceId())
                 .setAuthenticationToken(race.getAuthenticationToken())
+                .setJudgeId(race.getJudgeId())
+                .setJudgeName(race.getJudgeName())
                 .setConnectCode(race.getConnectCode())
                 .setName(race.getName())
                 .setSelected(race.isSelected())

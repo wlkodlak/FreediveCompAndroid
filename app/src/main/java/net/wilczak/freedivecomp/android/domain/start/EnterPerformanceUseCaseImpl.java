@@ -44,7 +44,8 @@ public class EnterPerformanceUseCaseImpl implements EnterPerformanceUseCase {
                     }
                     Start updatedStart = start.mutate()
                             .setLocalResult(localResult)
-                            .setState(Start.StartState.PENDING);
+                            .setState(Start.StartState.PENDING)
+                            .freeze();
                     return repository
                             .merge(race, reference, updatedStart.freeze())
                             .andThen(Completable.fromAction(() -> synchronize.synchronize(race)));
