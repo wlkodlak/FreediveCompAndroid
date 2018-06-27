@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.inject.Inject;
+
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import retrofit2.HttpException;
@@ -28,6 +30,7 @@ public class SynchronizeStartsUseCaseImpl implements SynchronizeStartsUseCase {
     private final RemoteServiceProvider remoteServiceProvider;
     private final AtomicInteger state;
 
+    @Inject
     public SynchronizeStartsUseCaseImpl(StartsRepository repository, RemoteServiceProvider remoteServiceProvider) {
         this.repository = repository;
         this.remoteServiceProvider = remoteServiceProvider;

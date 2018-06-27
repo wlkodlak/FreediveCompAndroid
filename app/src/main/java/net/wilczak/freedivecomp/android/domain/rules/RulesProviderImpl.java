@@ -7,12 +7,15 @@ import net.wilczak.freedivecomp.android.remote.messages.RulesDto;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import javax.inject.Inject;
+
 import io.reactivex.Single;
 
 public class RulesProviderImpl implements RulesProvider {
     private final RulesDtoRepository rulesRepository;
     private final DisciplinesDtoRepository disciplinesRepository;
 
+    @Inject
     public RulesProviderImpl(RulesDtoRepository rulesRepository, DisciplinesDtoRepository disciplinesRepository) {
         this.rulesRepository = rulesRepository;
         this.disciplinesRepository = disciplinesRepository;

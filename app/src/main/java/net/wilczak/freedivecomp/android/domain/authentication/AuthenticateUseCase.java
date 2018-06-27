@@ -4,6 +4,6 @@ import net.wilczak.freedivecomp.android.domain.race.Race;
 
 import io.reactivex.Observable;
 
-interface AuthenticateUseCase {
+public interface AuthenticateUseCase {
     Observable<AuthenticateUseCaseImpl.Status> authenticateRace(Race race);
 }

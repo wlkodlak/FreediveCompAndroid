@@ -2,7 +2,9 @@ package net.wilczak.freedivecomp.android.domain.race;
 
 import org.joda.time.DateTime;
 
-public class Race {
+import java.io.Serializable;
+
+public class Race implements Serializable {
     public static final Race MISSING = new Race((String)null);
 
     private final String raceId;
@@ -37,6 +39,10 @@ public class Race {
 
     public boolean isMissing() {
         return raceId == null;
+    }
+
+    public boolean isAuthenticated() {
+        return authenticationToken != null;
     }
 
     public String getRaceId() {

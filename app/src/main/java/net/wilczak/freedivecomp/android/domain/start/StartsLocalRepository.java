@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.inject.Inject;
+
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
@@ -28,6 +30,7 @@ public class StartsLocalRepository implements StartsRepository {
     private final ConcurrentHashMap<String, Observable<List<Start>>> observableStarts;
     private final StartingLanesRepository startingLanesRepository;
 
+    @Inject
     public StartsLocalRepository(AppDatabase database, StartingLanesRepository startingLanesRepository) {
         this.database = database;
         this.startingLanesRepository = startingLanesRepository;

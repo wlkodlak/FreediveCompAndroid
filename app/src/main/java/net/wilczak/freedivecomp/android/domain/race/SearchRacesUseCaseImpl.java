@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 
 public class SearchRacesUseCaseImpl implements SearchRacesUseCase {
@@ -21,6 +23,7 @@ public class SearchRacesUseCaseImpl implements SearchRacesUseCase {
     private final RemoteServiceProvider remoteServiceProvider;
     private final RaceRepository localRepository;
 
+    @Inject
     public SearchRacesUseCaseImpl(HostDiscovery hostsSource, RemoteServiceProvider remoteServiceProvider, RaceRepository localRepository) {
         this.hostsSource = hostsSource;
         this.remoteServiceProvider = remoteServiceProvider;

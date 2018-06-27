@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.inject.Inject;
+
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import okhttp3.OkHttpClient;
@@ -33,6 +35,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RemoteServiceRetrofitProvider implements RemoteServiceProvider {
     private final ConcurrentHashMap<String, RemoteServiceInternal> services;
 
+    @Inject
     public RemoteServiceRetrofitProvider() {
         this.services = new ConcurrentHashMap<>();
     }

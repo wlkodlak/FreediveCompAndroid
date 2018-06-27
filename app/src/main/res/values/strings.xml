@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Freedive Competition</string>
+    <string name="splash_screen">Splash screen</string>
 </resources>

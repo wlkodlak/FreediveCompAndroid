@@ -11,6 +11,8 @@ import net.wilczak.freedivecomp.android.remote.remoteservice.RemoteServiceProvid
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
@@ -21,6 +23,7 @@ public class SelectRaceUseCaseImpl implements SelectRaceUseCase {
     private final RulesDtoRepository rulesRepository;
     private final DisciplinesDtoRepository disciplinesRepository;
 
+    @Inject
     public SelectRaceUseCaseImpl(
             RemoteServiceProvider remoteServiceProvider,
             RaceRepository raceRepository,

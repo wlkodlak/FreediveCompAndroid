@@ -12,6 +12,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
@@ -19,6 +21,7 @@ public class RulesLocalDtoRepository implements RulesDtoRepository {
     private final AppDatabase database;
     private final Gson gson;
 
+    @Inject
     public RulesLocalDtoRepository(AppDatabase database) {
         this.database = database;
         this.gson = new Gson();

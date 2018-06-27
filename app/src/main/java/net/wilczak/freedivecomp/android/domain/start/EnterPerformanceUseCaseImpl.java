@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import javax.inject.Inject;
+
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
@@ -14,6 +16,7 @@ public class EnterPerformanceUseCaseImpl implements EnterPerformanceUseCase {
     private final StartsRepository repository;
     private final SynchronizeStartsUseCase synchronize;
 
+    @Inject
     public EnterPerformanceUseCaseImpl(StartsRepository repository, SynchronizeStartsUseCase synchronize) {
         this.repository = repository;
         this.synchronize = synchronize;

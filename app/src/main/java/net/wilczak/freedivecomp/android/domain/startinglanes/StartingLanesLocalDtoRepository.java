@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.inject.Inject;
+
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
@@ -26,6 +28,7 @@ public class StartingLanesLocalDtoRepository implements StartingLanesDtoReposito
     private final PublishSubject<String> changeNotification;
     private final ConcurrentHashMap<String, Observable<List<StartingLaneDto>>> observableLanes;
 
+    @Inject
     public StartingLanesLocalDtoRepository(AppDatabase database) {
         this.database = database;
         this.gson = new Gson();
