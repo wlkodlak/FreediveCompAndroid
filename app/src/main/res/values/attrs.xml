@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="templateSelector" format="reference" />
+
+    <declare-styleable name="BindableList">
+        <attr name="items" />
+        <attr name="templateSelector" />
+    </declare-styleable>
+</resources>

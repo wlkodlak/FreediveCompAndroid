@@ -25,12 +25,12 @@ public class AuthenticateUseCaseImpl implements AuthenticateUseCase {
 
     @Override
     public Observable<Status> authenticateRace(Race race) {
-        Status status = Status.initialize(race);
+        StatusImpl status = StatusImpl.initialize(race);
         if (status.isAuthenticated()) return Observable.just(status);
-        return authenticateRaceStep(status).share();
+        return authenticateRaceStep(status).share().map(s -> (Status) s);
     }
 
-    private Observable<Status> authenticateRaceStep(Status previousStatus) {
+    private Observable<StatusImpl> authenticateRaceStep(StatusImpl previousStatus) {
         return Observable
                 .defer(() -> {
                     RemoteService remoteService = remoteServiceProvider.getService(previousStatus.getRace().getUri());
@@ -66,18 +66,18 @@ public class AuthenticateUseCaseImpl implements AuthenticateUseCase {
                 });
     }
 
-    public static class Status {
+    private static class StatusImpl implements Status {
         private final Race race;
         private final State state;
         private final Throwable error;
         private final int failedAttempts;
 
-        public static Status initialize(Race race) {
+        public static StatusImpl initialize(Race race) {
             State initialState = race.getAuthenticationToken() == null ? State.STARTING : State.AUTHENTICATED;
-            return new Status(race, initialState, null, 0);
+            return new StatusImpl(race, initialState, null, 0);
         }
 
-        private Status(Race race, State state, Throwable error, int failedAttempts) {
+        private StatusImpl(Race race, State state, Throwable error, int failedAttempts) {
             this.race = race;
             this.state = state;
             this.error = error;
@@ -116,29 +116,20 @@ public class AuthenticateUseCaseImpl implements AuthenticateUseCase {
             return race.getAuthenticationToken() != null;
         }
 
-        public Status fail(Throwable t) {
-            return new Status(race, State.FAILED, t, failedAttempts + 1);
+        public StatusImpl fail(Throwable t) {
+            return new StatusImpl(race, State.FAILED, t, failedAttempts + 1);
         }
 
-        public Status to(State state) {
-            return new Status(race, state, null, 0);
+        public StatusImpl to(State state) {
+            return new StatusImpl(race, state, null, 0);
         }
 
-        public Status update(Race race, State state) {
-            return new Status(race, state, null, 0);
+        public StatusImpl update(Race race, State state) {
+            return new StatusImpl(race, state, null, 0);
         }
 
-        public Status busy() {
-            return new Status(race, State.BUSY, null, 0);
+        public StatusImpl busy() {
+            return new StatusImpl(race, State.BUSY, null, 0);
         }
     }
-
-    public enum State {
-        STARTING,
-        BETWEEN_ATTEMPTS,
-        BUSY,
-        AUTHENTICATED,
-        FAILED,
-    }
-
 }

@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Freedive Competition</string>
     <string name="splash_screen">Splash screen</string>
+    <string name="search_action">Search</string>
+    <string name="search_hint">Search</string>
+    <string name="race_favorite_description">Favorite race</string>
+    <string name="pairing_paired_message">You are now paired with %1$s</string>
+    <string name="pairing_unpaired_message">You\'re not yet paired with %1$s, show this code to its administrator</string>
 </resources>

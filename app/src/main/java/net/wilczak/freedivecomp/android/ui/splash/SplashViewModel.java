@@ -18,7 +18,10 @@ public class SplashViewModel extends BaseViewModel {
     private Disposable selectRaceCancellation;
 
     @Inject
-    public SplashViewModel(SelectRaceUseCase selectRaceUseCase, @BackgroundScheduler Scheduler backgroundScheduler, @AndroidScheduler Scheduler foregroundScheduler) {
+    public SplashViewModel(
+            SelectRaceUseCase selectRaceUseCase,
+            @BackgroundScheduler Scheduler backgroundScheduler,
+            @AndroidScheduler Scheduler foregroundScheduler) {
         this.selectRaceUseCase = selectRaceUseCase;
         this.backgroundScheduler = backgroundScheduler;
         this.foregroundScheduler = foregroundScheduler;

@@ -137,6 +137,7 @@ public class ApplicationModule {
         StartingLanesRepository bindStartingLanesRepository(StartingLanesRepositoryImpl impl);
         @Binds @Singleton
         StartingLanesDtoRepository bindStartingLanesDtoRepository(StartingLanesLocalDtoRepository impl);
-
+        @Binds @Singleton
+        Localization bindLocalization(LocalizationNative impl);
     }
 }

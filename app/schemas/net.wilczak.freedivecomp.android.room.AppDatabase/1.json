@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b61f33cdb0083cd7dec17883756ffebd",
+    "identityHash": "5f9700906ce5470c31570de9cd9c8126",
     "entities": [
       {
         "tableName": "race",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`raceId` TEXT NOT NULL, `name` TEXT, `since` INTEGER NOT NULL, `until` INTEGER NOT NULL, `uri` TEXT, `connectCode` TEXT, `authenticationToken` TEXT, `selected` INTEGER NOT NULL, PRIMARY KEY(`raceId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`raceId` TEXT NOT NULL, `name` TEXT, `since` INTEGER NOT NULL, `until` INTEGER NOT NULL, `uri` TEXT, `connectCode` TEXT, `authenticationToken` TEXT, `judgeId` TEXT, `judgeName` TEXT, `selected` INTEGER NOT NULL, PRIMARY KEY(`raceId`))",
         "fields": [
           {
             "fieldPath": "raceId",
@@ -47,6 +47,18 @@
           {
             "fieldPath": "authenticationToken",
             "columnName": "authenticationToken",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "judgeId",
+            "columnName": "judgeId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "judgeName",
+            "columnName": "judgeName",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -94,7 +106,7 @@
       },
       {
         "tableName": "start",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `raceId` TEXT NOT NULL, `startingLaneId` TEXT NOT NULL, `athleteId` TEXT NOT NULL, `disciplineId` TEXT NOT NULL, `resultStatus` TEXT NOT NULL, `startJson` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `raceId` TEXT NOT NULL, `athleteId` TEXT NOT NULL, `disciplineId` TEXT NOT NULL, `resultStatus` TEXT NOT NULL, `startJson` TEXT NOT NULL, `resultJson` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -105,12 +117,6 @@
           {
             "fieldPath": "raceId",
             "columnName": "raceId",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "startingLaneId",
-            "columnName": "startingLaneId",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -137,6 +143,12 @@
             "columnName": "startJson",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "resultJson",
+            "columnName": "resultJson",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -173,11 +185,37 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "disciplines",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`raceId` TEXT NOT NULL, `disciplinesJson` TEXT, PRIMARY KEY(`raceId`))",
+        "fields": [
+          {
+            "fieldPath": "raceId",
+            "columnName": "raceId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "disciplinesJson",
+            "columnName": "disciplinesJson",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "raceId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"b61f33cdb0083cd7dec17883756ffebd\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"5f9700906ce5470c31570de9cd9c8126\")"
     ]
   }
 }
