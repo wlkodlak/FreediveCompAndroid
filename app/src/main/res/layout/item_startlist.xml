@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="net.wilczak.freedivecomp.android.ui.startinglist.StartingListItemViewModel" />
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{viewModel::onClick}"
+        android:paddingBottom="4dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp">
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guide_33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.33" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guide_66"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.66" />
+
+        <TextView
+            android:id="@+id/start_athlete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.athleteName}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            app:layout_constraintEnd_toStartOf="@id/start_synchronization"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Milan Wilczak" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/start_synchronization"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/sync_indicator"
+            app:imageLevel="@{viewModel.statusLevel}"
+            app:layout_constraintBottom_toBottomOf="@id/start_athlete"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/start_athlete" />
+
+        <TextView
+            android:id="@+id/start_label_official_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/start_official_top"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/start_athlete" />
+
+        <TextView
+            android:id="@+id/start_value_official_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="4dp"
+            android:text="@{viewModel.officialTop}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintStart_toEndOf="@id/start_label_official_top"
+            app:layout_constraintTop_toTopOf="@id/start_label_official_top"
+            tools:text="10:22" />
+
+        <TextView
+            android:id="@+id/start_label_announcement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:text="@string/start_announcement"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintEnd_toStartOf="@id/start_value_announcement"
+            app:layout_constraintTop_toTopOf="@id/start_label_official_top" />
+
+        <TextView
+            android:id="@+id/start_value_announcement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.announcedPerformance}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/start_label_official_top"
+            tools:text="127m" />
+
+        <TextView
+            android:id="@+id/start_label_realized"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/start_performance"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:visibility="@{viewModel.realizedVisibility}"
+            app:layout_constraintStart_toStartOf="@id/guide_33"
+            app:layout_constraintTop_toTopOf="@id/start_label_official_top" />
+
+        <TextView
+            android:id="@+id/start_value_realized"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{viewModel.realizedPerformance}"
+            android:visibility="@{viewModel.realizedVisibility}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintStart_toEndOf="@id/start_label_realized"
+            app:layout_constraintTop_toTopOf="@id/start_label_official_top"
+            tools:text="178m" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/card_indicator"
+            android:visibility="@{viewModel.realizedVisibility}"
+            app:imageLevel="@{viewModel.realizedCardLevel}"
+            app:layout_constraintBottom_toBottomOf="@id/start_label_official_top"
+            app:layout_constraintDimensionRatio="w,2:3"
+            app:layout_constraintStart_toEndOf="@id/start_value_realized"
+            app:layout_constraintTop_toTopOf="@id/start_label_official_top" />
+
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

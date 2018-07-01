@@ -62,6 +62,6 @@ public class StartingLanesActivity extends BaseActivity<StartingLanesViewModel> 
 
     @Override
     public void openStartingList(Race race, StartingLane lane) {
-        startActivity(StartingListActivity.createIntent(this, race, lane));
+        startActivity(StartingListActivity.createIntent(this, race, lane.getId()));
     }
 }

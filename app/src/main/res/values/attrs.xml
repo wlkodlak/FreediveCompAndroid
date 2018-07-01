@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="templateSelector" format="reference" />
+    <attr name="imageLevel" format="integer" />
 
     <declare-styleable name="BindableList">
         <attr name="items" />

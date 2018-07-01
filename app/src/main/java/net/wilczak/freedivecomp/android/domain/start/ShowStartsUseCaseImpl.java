@@ -1,7 +1,6 @@
 package net.wilczak.freedivecomp.android.domain.start;
 
 import net.wilczak.freedivecomp.android.domain.race.Race;
-import net.wilczak.freedivecomp.android.domain.startinglanes.StartingLane;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +21,8 @@ public class ShowStartsUseCaseImpl implements ShowStartsUseCase {
     }
 
     @Override
-    public Observable<List<Start>> getStartsInLane(Race race, StartingLane startingLane) {
-        return repository.getAll(race).map(all -> filterStartingLane(all, startingLane.getId()));
+    public Observable<List<Start>> getStartsInLane(Race race, String startingLaneId) {
+        return repository.getAll(race).map(all -> filterStartingLane(all, startingLaneId));
     }
 
     private List<Start> filterStartingLane(List<Start> allStarts, String startingLaneId) {

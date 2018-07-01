@@ -6,13 +6,10 @@ import android.databinding.Observable;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.util.ArraySet;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Choreographer;
 
 import net.wilczak.freedivecomp.android.BR;
-
-import java.util.Set;
 
 public abstract class BaseActivity<TViewModel extends BaseViewModel> extends AppCompatActivity {
 
@@ -39,7 +36,7 @@ public abstract class BaseActivity<TViewModel extends BaseViewModel> extends App
         viewModel.addOnPropertyChangedCallback(viewModelPropertyChangedListener);
     }
 
-    protected void onViewModelChanged(Set<Integer> dirtyProperties) {
+    protected void onViewModelChanged(DirtyProperties dirtyProperties) {
     }
 
     @Override
@@ -68,18 +65,20 @@ public abstract class BaseActivity<TViewModel extends BaseViewModel> extends App
 
     private class ViewModelPropertyChangedListener extends Observable.OnPropertyChangedCallback implements Choreographer.FrameCallback {
         private final Choreographer choreographer;
-        private final Set<Integer> pendingChanges;
+        private DirtyProperties pendingChanges;
         private boolean refreshPending;
 
         public ViewModelPropertyChangedListener() {
             this.choreographer = Choreographer.getInstance();
-            pendingChanges = new ArraySet<>();
         }
 
         @Override
         public void onPropertyChanged(Observable sender, int propertyId) {
-            pendingChanges.add(propertyId);
-            if (!refreshPending) {
+            if (refreshPending) {
+                pendingChanges.add(propertyId);
+            } else {
+                pendingChanges = new DirtyProperties();
+                pendingChanges.add(propertyId);
                 refreshPending = true;
                 choreographer.postFrameCallback(this);
             }
@@ -93,10 +92,11 @@ public abstract class BaseActivity<TViewModel extends BaseViewModel> extends App
 
         @Override
         public void doFrame(long frameTimeNanos) {
-            Set<Integer> frozenChanges = new ArraySet<>(pendingChanges);
-            pendingChanges.clear();
+            DirtyProperties frozenChanges = pendingChanges;
             refreshPending = false;
-            onViewModelChanged(frozenChanges);
+            if (frozenChanges != null) {
+                onViewModelChanged(frozenChanges);
+            }
         }
     }
 }
