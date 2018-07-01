@@ -5,7 +5,7 @@ import android.content.Context;
 import dagger.Module;
 import dagger.Provides;
 
-@Module(includes = ViewModelsModule.class)
+@Module
 public class ActivityModule {
     private final Context context;
 

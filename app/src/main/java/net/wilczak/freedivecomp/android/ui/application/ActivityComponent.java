@@ -12,8 +12,6 @@ import dagger.Component;
 @Component(modules = ActivityModule.class, dependencies = ApplicationComponent.class)
 @PerActivity
 public interface ActivityComponent extends ApplicationComponent {
-    ViewModelFactory getViewModelFactory();
-
     void inject(EnterResultActivity activity);
     void inject(FindRaceActivity activity);
     void inject(PairingActivity activity);

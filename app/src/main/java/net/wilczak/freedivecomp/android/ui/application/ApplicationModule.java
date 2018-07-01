@@ -42,14 +42,13 @@ import net.wilczak.freedivecomp.android.room.AppDatabase;
 
 import javax.inject.Singleton;
 
-import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-@Module(includes = ApplicationModule.ApplicationBindings.class)
+@Module(includes = ViewModelsModule.class)
 public class ApplicationModule {
     private final Context context;
 
@@ -109,35 +108,87 @@ public class ApplicationModule {
         return new AuthenticateUseCaseImpl(deviceId, raceRepository, remoteServiceProvider, delay);
     }
 
-    @Module
-    interface ApplicationBindings {
-        @Binds @Singleton
-        DeviceIdSource bindDeviceIdSource(DeviceIdSourceCachedRandom impl);
-        @Binds @Singleton
-        RaceRepository bindRaceRepository(RaceLocalRepository impl);
-        @Binds @Singleton
-        SearchRacesUseCase bindSearchRaces(SearchRacesUseCaseImpl impl);
-        @Binds @Singleton
-        SelectRaceUseCase bindSelectRace(SelectRaceUseCaseImpl impl);
-        @Binds @Singleton
-        DisciplinesDtoRepository bindDisciplinesRepository(DisciplinesLocalDtoRepository impl);
-        @Binds @Singleton
-        RulesDtoRepository bindRulesRepository(RulesLocalDtoRepository impl);
-        @Binds @Singleton
-        RulesProvider bindRulesProvider(RulesProviderImpl impl);
-        @Binds @Singleton
-        EnterPerformanceUseCase bindEnterPerformance(EnterPerformanceUseCaseImpl impl);
-        @Binds @Singleton
-        ShowStartsUseCase bindShowStarts(ShowStartsUseCaseImpl impl);
-        @Binds @Singleton
-        StartsRepository bindStartsRepository(StartsLocalRepository impl);
-        @Binds @Singleton
-        SynchronizeStartsUseCase bindStarts(SynchronizeStartsUseCaseImpl impl);
-        @Binds @Singleton
-        StartingLanesRepository bindStartingLanesRepository(StartingLanesRepositoryImpl impl);
-        @Binds @Singleton
-        StartingLanesDtoRepository bindStartingLanesDtoRepository(StartingLanesLocalDtoRepository impl);
-        @Binds @Singleton
-        Localization bindLocalization(LocalizationNative impl);
+    @Provides
+    @Singleton
+    public DeviceIdSource bindDeviceIdSource(DeviceIdSourceCachedRandom impl) {
+        return impl;
+    }
+
+    @Provides
+    @Singleton
+    public RaceRepository bindRaceRepository(RaceLocalRepository impl) {
+        return impl;
+    }
+
+    @Provides
+    @Singleton
+    public SearchRacesUseCase bindSearchRaces(SearchRacesUseCaseImpl impl) {
+        return impl;
+    }
+
+    @Provides
+    @Singleton
+    public SelectRaceUseCase bindSelectRace(SelectRaceUseCaseImpl impl) {
+        return impl;
+    }
+
+    @Provides
+    @Singleton
+    public DisciplinesDtoRepository bindDisciplinesRepository(DisciplinesLocalDtoRepository impl) {
+        return impl;
+    }
+
+    @Provides
+    @Singleton
+    public RulesDtoRepository bindRulesRepository(RulesLocalDtoRepository impl) {
+        return impl;
+    }
+
+    @Provides
+    @Singleton
+    public RulesProvider bindRulesProvider(RulesProviderImpl impl) {
+        return impl;
+    }
+
+    @Provides
+    @Singleton
+    public EnterPerformanceUseCase bindEnterPerformance(EnterPerformanceUseCaseImpl impl) {
+        return impl;
+    }
+
+    @Provides
+    @Singleton
+    public ShowStartsUseCase bindShowStarts(ShowStartsUseCaseImpl impl) {
+        return impl;
+    }
+
+    @Provides
+    @Singleton
+    public StartsRepository bindStartsRepository(StartsLocalRepository impl) {
+        return impl;
+    }
+
+    @Provides
+    @Singleton
+    public SynchronizeStartsUseCase bindStarts(SynchronizeStartsUseCaseImpl impl) {
+        return impl;
+    }
+
+    @Provides
+    @Singleton
+    public StartingLanesRepository bindStartingLanesRepository(StartingLanesRepositoryImpl impl) {
+        return impl;
+    }
+
+    @Provides
+    @Singleton
+    public StartingLanesDtoRepository bindStartingLanesDtoRepository(StartingLanesLocalDtoRepository impl) {
+        return impl;
+    }
+
+    @Provides
+    @Singleton
+    public Localization bindLocalization(LocalizationNative impl) {
+        return impl;
     }
 }

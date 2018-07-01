@@ -27,6 +27,7 @@ public class FindRaceActivity extends BaseActivity<FindRaceViewModel> implements
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getViewModel().attachView(this);
+        setTitle(R.string.findrace_title);
     }
 
     @Override
