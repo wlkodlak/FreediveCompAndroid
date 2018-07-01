@@ -30,6 +30,7 @@ public class PairingActivity extends BaseActivity<PairingViewModel> implements P
         getViewModel().attachView(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.pairing_title);
+        getViewModel().setRace((Race) getIntent().getSerializableExtra(EXTRA_RACE));
     }
 
     @Override

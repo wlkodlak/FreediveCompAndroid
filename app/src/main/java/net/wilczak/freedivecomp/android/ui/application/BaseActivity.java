@@ -50,6 +50,11 @@ public abstract class BaseActivity<TViewModel extends BaseViewModel> extends App
         viewModelPropertyChangedListener.onDestroy();
     }
 
+    @SuppressWarnings("unchecked")
+    protected <T extends ViewDataBinding> T getBinding() {
+        return (T) binding;
+    }
+
     public ActivityComponent getComponent() {
         if (component == null) {
             FreediveApplication application = (FreediveApplication) getApplication();

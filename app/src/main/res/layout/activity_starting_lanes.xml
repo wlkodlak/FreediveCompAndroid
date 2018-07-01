@@ -14,6 +14,7 @@
         android:id="@+id/startinglanes_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:templateSelector="@{viewModel.templateSelector}"
         app:items="@{viewModel.startingLanes}"/>
 
 </layout>

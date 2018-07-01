@@ -2,12 +2,14 @@ package net.wilczak.freedivecomp.android.ui.startinglanes;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.view.View;
 
 import net.wilczak.freedivecomp.android.domain.startinglanes.StartingLane;
 
 public class StartingLanesItemViewModel extends BaseObservable {
     private final int level;
     private final StartingLane lane;
+    private OnClickListener clickListener;
 
     public StartingLanesItemViewModel(StartingLane lane) {
         this.lane = lane;
@@ -36,5 +38,19 @@ public class StartingLanesItemViewModel extends BaseObservable {
     @Bindable
     public boolean isGroup() {
         return lane.getChildren().size() > 0;
+    }
+
+    public void onClick(View v) {
+        if (clickListener != null) {
+            clickListener.onLaneClick(lane);
+        }
+    }
+
+    public void setClickListener(OnClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
+
+    public interface OnClickListener {
+        void onLaneClick(StartingLane lane);
     }
 }

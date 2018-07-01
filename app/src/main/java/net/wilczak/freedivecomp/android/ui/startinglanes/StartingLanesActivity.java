@@ -31,6 +31,7 @@ public class StartingLanesActivity extends BaseActivity<StartingLanesViewModel> 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.startinglanes_title);
         getViewModel().attachView(this);
+        getViewModel().setRace((Race) getIntent().getSerializableExtra(EXTRA_RACE));
     }
 
     @Override

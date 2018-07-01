@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="startinglane_group_textSize">12sp</dimen>
+    <dimen name="startinglane_level_padding">32dp</dimen>
+    <dimen name="startinglane_leaf_textSize">24sp</dimen>
 </resources>

@@ -6,11 +6,14 @@ import net.wilczak.freedivecomp.android.remote.messages.StartingLaneDto;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 
 public class StartingLanesRepositoryImpl implements StartingLanesRepository {
     private final StartingLanesLocalDtoRepository dtoRepository;
 
+    @Inject
     public StartingLanesRepositoryImpl(StartingLanesLocalDtoRepository dtoRepository) {
         this.dtoRepository = dtoRepository;
     }

@@ -14,10 +14,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="1"
+        android:onClick="@{viewModel::onClick}"
         android:paddingEnd="0dp"
         android:paddingStart="@{(float)viewModel.level * @dimen/startinglane_level_padding}"
         android:text="@{viewModel.name}"
-        android:textSize="@dimen/startinglane_group_textSize"
-        tools:text="European Championship" />
+        android:textSize="@dimen/startinglane_leaf_textSize"
+        android:textStyle="bold"
+        tools:paddingStart="@dimen/startinglane_level_padding"
+        tools:text="A" />
 
 </layout>
