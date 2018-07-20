@@ -9,7 +9,23 @@
     <string name="pairing_paired_message">You are now paired with %1$s</string>
     <string name="pairing_unpaired_message">You\'re not yet paired with %1$s, show this code to its administrator</string>
     <string name="startinglanes_title">Pick starting lane</string>
+    <string name="start_lane">Lane</string>
+    <string name="start_discipline">Discipline</string>
     <string name="start_official_top">OT</string>
     <string name="start_announcement">AP</string>
     <string name="start_performance">RP</string>
+    <string name="performance_distance">Distance</string>
+    <string name="performance_depth">Depth</string>
+    <string name="performance_duration">Duration</string>
+    <string name="performance_final">Final result</string>
+    <string name="performance_confirm">Confirm</string>
+    <string name="card_title">Card</string>
+    <string name="card_white">White</string>
+    <string name="card_yellow">Yellow</string>
+    <string name="card_red">Red</string>
+    <string name="penalties_title">Penalties</string>
+    <string name="penalties_add">Add penalty</string>
+    <string name="synchronization_description">Synchronization status</string>
+    <string name="unit_meter">m</string>
+    <string name="unit_second">s</string>
 </resources>
