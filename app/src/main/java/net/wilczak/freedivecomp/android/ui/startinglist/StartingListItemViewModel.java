@@ -25,6 +25,10 @@ public class StartingListItemViewModel extends BaseObservable {
         this.performanceFormatter = new PerformanceFormatter(localization);
     }
 
+    public Start getStart() {
+        return start;
+    }
+
     @Bindable
     public String getAthleteName() {
         return start.getAthlete().getFirstName() + " " + start.getAthlete().getSurname();

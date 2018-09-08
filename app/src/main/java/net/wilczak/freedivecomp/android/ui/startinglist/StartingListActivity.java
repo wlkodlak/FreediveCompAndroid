@@ -75,6 +75,16 @@ public class StartingListActivity extends BaseActivity<StartingListViewModel> im
 
     @Override
     public void openEnterPerformance(Race race, StartReference startReference) {
-        startActivity(EnterResultActivity.createIntent(this, race, startReference));
+        startActivityForResult(EnterResultActivity.createIntent(this, race, startReference), 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0 && resultCode == RESULT_OK) {
+            StartReference startReference = EnterResultActivity.getResultStartReference(data);
+            getViewModel().setFinishedResultEntered(startReference);
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

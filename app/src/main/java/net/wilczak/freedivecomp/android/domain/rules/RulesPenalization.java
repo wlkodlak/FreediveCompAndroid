@@ -54,8 +54,10 @@ public class RulesPenalization {
                 .setReason(reason)
                 .setShortReason(shortReason)
                 .setShortPerformance(false)
-                .setRuleInput(input)
                 .setPerformance(new PerformanceDto());
+        if (getHasInput()) {
+            penalizationDto.setRuleInput(input);
+        }
         RulesCalculationVariables calculationVariables = new RulesCalculationVariables().withInput(input).withRealized(realized);
         Double penaltyValue = penaltyCalculation.evaluate(calculationVariables);
         penaltyComponent.set(penalizationDto.getPerformance(), penaltyValue);

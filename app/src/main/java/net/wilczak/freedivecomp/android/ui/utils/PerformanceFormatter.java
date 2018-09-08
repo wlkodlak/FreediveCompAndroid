@@ -48,6 +48,7 @@ public class PerformanceFormatter {
 
     private String formatNumber(String unit, Double value) {
         if (value == null) return null;
+        if (unit == null) unit = "";
         return String.format(localization.getLocale(), "%f" + unit, value);
     }
 
@@ -89,6 +90,16 @@ public class PerformanceFormatter {
             int minutes = Integer.parseInt(input.substring(0, colonPosition));
             int seconds = Integer.parseInt(input.substring(colonPosition + 1));
             return (double) (minutes * 60 + seconds);
+        }
+    }
+
+    public String getUnit(PerformanceComponent component) {
+        if (component == PerformanceComponent.Distance || component == PerformanceComponent.Depth) {
+            return "m";
+        } else if (component == PerformanceComponent.Points) {
+            return "p";
+        } else {
+            return null;
         }
     }
 }

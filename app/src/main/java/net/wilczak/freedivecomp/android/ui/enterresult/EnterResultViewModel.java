@@ -9,6 +9,7 @@ import net.wilczak.freedivecomp.android.R;
 import net.wilczak.freedivecomp.android.domain.race.Race;
 import net.wilczak.freedivecomp.android.domain.rules.PerformanceComponent;
 import net.wilczak.freedivecomp.android.domain.rules.Rules;
+import net.wilczak.freedivecomp.android.domain.rules.RulesPenalization;
 import net.wilczak.freedivecomp.android.domain.rules.RulesProvider;
 import net.wilczak.freedivecomp.android.domain.start.EnterPerformanceUseCase;
 import net.wilczak.freedivecomp.android.domain.start.Start;
@@ -32,7 +33,7 @@ import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-public class EnterResultViewModel extends BaseViewModel {
+public class EnterResultViewModel extends BaseViewModel implements AddPenalizationDialog.OnPenalizationConfirmed {
     private final EnterPerformanceUseCase enterPerformanceUseCase;
     private final RulesProvider rulesProvider;
     private final Localization localization;
@@ -46,6 +47,10 @@ public class EnterResultViewModel extends BaseViewModel {
     private BindableSnackbarMessage snackbarMessage;
     private EnterResultPerformanceViewModel depthViewModel, distanceViewModel, durationViewModel;
     private boolean ignorePerformanceChanges;
+    private boolean showPenalizationSelection;
+    private RulesPenalization showPenalizationInput;
+    private boolean showPenalizationCustom;
+    private InternalView internalView;
 
     @Inject
     public EnterResultViewModel(EnterPerformanceUseCase enterPerformanceUseCase, RulesProvider rulesProvider, Localization localization) {
@@ -89,7 +94,11 @@ public class EnterResultViewModel extends BaseViewModel {
         this.startReference = startReference;
     }
 
-    public void getData() {
+    public void attachView(InternalView internalView) {
+        this.internalView = internalView;
+    }
+
+    public void onStart() {
         if (start == null) {
             disposables.add(enterPerformanceUseCase
                     .getStart(race, startReference)
@@ -356,8 +365,87 @@ public class EnterResultViewModel extends BaseViewModel {
         showAddPenalization();
     }
 
+    @Bindable
+    public List<RulesPenalization> getPenalizationOptions() {
+        if (rules == null || !showPenalizationSelection) return null;
+        return rules.getPenalizations();
+    }
+
+    @Bindable
+    public String getCustomPenalizationUnit() {
+        if (rules == null) return null;
+        PerformanceComponent component = rules.getPenalizationComponent();
+        return performanceFormatter.getUnit(component);
+    }
+
+    @Bindable
+    public RulesPenalization getShowPenalizationInput() {
+        return showPenalizationInput;
+    }
+
+    @Bindable
+    public boolean getShowPenalizationCustom() {
+        return showPenalizationCustom;
+    }
+
     private void showAddPenalization() {
-        // TODO
+        notifyPropertyChanged(BR.penalizationOptions);
+        internalView.showPerformanceSelectionDialog();
+    }
+
+    @Override
+    public void onPenalizationSelected(RulesPenalization specification) {
+        showPenalizationSelection = false;
+        notifyPropertyChanged(BR.penalizationOptions);
+
+        if (specification == null) {
+            showPenalizationCustom = true;
+            notifyPropertyChanged(BR.showPenalizationCustom);
+            internalView.showPerformanceCustomDialog();
+        } else if (specification.getHasInput()) {
+            showPenalizationInput = specification;
+            notifyPropertyChanged(BR.showPenalizationInput);
+            internalView.showPerformanceInputDialog();
+        } else {
+            PenalizationDto penalizationDto = specification.buildPenalization(0, dirtyResult.getPerformance());
+            addPenalization(penalizationDto);
+        }
+    }
+
+    @Override
+    public void onPenalizationConfirmed(RulesPenalization specification, Double input) {
+        showPenalizationInput = null;
+        notifyPropertyChanged(BR.showPenalizationInput);
+
+        PenalizationDto penalizationDto = specification.buildPenalization(input == null ? 0 : (double) input, dirtyResult.getPerformance());
+        addPenalization(penalizationDto);
+    }
+
+    @Override
+    public void onCustomPenalizationConfirmed(String reason, Double input) {
+        PenalizationDto penalizationDto = new PenalizationDto();
+        penalizationDto.setReason(reason).setShortReason(reason);
+        if (input != null) {
+            penalizationDto.setPerformance(new PerformanceDto());
+            penalizationDto.setRuleInput(input);
+            rules.getPenalizationComponent().set(penalizationDto.getPerformance(), input);
+        }
+        addPenalization(penalizationDto);
+    }
+
+    @Override
+    public void onDismissed() {
+        showPenalizationSelection = false;
+        showPenalizationInput = null;
+        showPenalizationCustom = false;
+        notifyPropertyChanged(BR.penalizationOptions);
+        notifyPropertyChanged(BR.showPenalizationCustom);
+        notifyPropertyChanged(BR.showPenalizationInput);
+    }
+
+    private void addPenalization(PenalizationDto penalizationDto) {
+        dirtyResult.getPenalizations().add(penalizationDto);
+        recalculateResult(false);
     }
 
     @Bindable
@@ -377,12 +465,16 @@ public class EnterResultViewModel extends BaseViewModel {
         if (dirtyResult == null) return;
         disposables.add(enterPerformanceUseCase
                 .postResult(race, startReference, null)
-                .subscribe(this::onSaveComplete, this::onSaveError));
+                .subscribe(this::onDiscardComplete, this::onSaveError));
     }
 
     private void onSaveComplete() {
+        internalView.goToNextAthlete();
+    }
+
+    private void onDiscardComplete() {
         start = null;
-        getData();
+        onStart();
     }
 
     private void onSaveError(Throwable error) {
@@ -412,5 +504,16 @@ public class EnterResultViewModel extends BaseViewModel {
             default:
                 return View.VISIBLE;
         }
+    }
+
+    public String getTitle() {
+        return localization.getString(R.string.enterresults_title);
+    }
+
+    public interface InternalView {
+        void showPerformanceSelectionDialog();
+        void showPerformanceInputDialog();
+        void showPerformanceCustomDialog();
+        void goToNextAthlete();
     }
 }

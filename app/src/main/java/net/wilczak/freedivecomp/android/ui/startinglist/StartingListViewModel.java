@@ -34,6 +34,7 @@ public class StartingListViewModel extends BaseViewModel implements StartingList
     private StartingLane startingLane;
     private InternalView view;
     private List<StartingListItemViewModel> starts;
+    private StartReference finishedResultEntered;
 
     @Inject
     public StartingListViewModel(
@@ -74,6 +75,14 @@ public class StartingListViewModel extends BaseViewModel implements StartingList
         this.startingLaneId = startingLaneId;
     }
 
+    public StartReference getFinishedResultEntered() {
+        return finishedResultEntered;
+    }
+
+    public void setFinishedResultEntered(StartReference finishedResultEntered) {
+        this.finishedResultEntered = finishedResultEntered;
+    }
+
     @Bindable
     public String getTitle() {
         if (startingLane == null) return null;
@@ -105,6 +114,9 @@ public class StartingListViewModel extends BaseViewModel implements StartingList
                     .observeOn(foregroundScheduler)
                     .subscribe(this::setRawStarts);
         }
+        if (starts != null && finishedResultEntered != null) {
+            advanceToNextAthlete();
+        }
     }
 
     private void setRawStarts(List<Start> starts) {
@@ -115,6 +127,9 @@ public class StartingListViewModel extends BaseViewModel implements StartingList
             viewModels.add(viewModel);
         }
         setStarts(viewModels);
+        if (finishedResultEntered != null) {
+            advanceToNextAthlete();
+        }
     }
 
     @Override
@@ -130,6 +145,23 @@ public class StartingListViewModel extends BaseViewModel implements StartingList
     public void onStartClick(Start start) {
         if (view != null) {
             view.openEnterPerformance(race, start.getReference());
+        }
+    }
+
+    private void advanceToNextAthlete() {
+        boolean justFoundStart = false;
+        StartReference nextStart = null;
+        for (StartingListItemViewModel viewModel : getStarts()) {
+            StartReference reference = viewModel.getStart().getReference();
+            if (reference.equals(finishedResultEntered)) {
+                justFoundStart = true;
+            } else if (justFoundStart) {
+                nextStart = reference;
+            }
+        }
+        finishedResultEntered = null;
+        if (nextStart != null) {
+            view.openEnterPerformance(race, nextStart);
         }
     }
 

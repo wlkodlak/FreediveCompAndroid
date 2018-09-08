@@ -9,6 +9,7 @@
     <string name="pairing_paired_message">You are now paired with %1$s</string>
     <string name="pairing_unpaired_message">You\'re not yet paired with %1$s, show this code to its administrator</string>
     <string name="startinglanes_title">Pick starting lane</string>
+    <string name="enterresults_title">Enter results</string>
     <string name="start_lane">Lane</string>
     <string name="start_discipline">Discipline</string>
     <string name="start_official_top">OT</string>
@@ -30,4 +31,10 @@
     <string name="unit_meter">m</string>
     <string name="unit_second">s</string>
     <string name="popup_white_when_penalized">You cannot give white card when athlete is penalized.</string>
+    <string name="popup_cancel">Cancel</string>
+    <string name="popup_confirm">Confirm</string>
+    <string name="popup_custom">Add custom penalization</string>
+    <string name="popup_pick_penalization">Add penalization</string>
+    <string name="popup_reason">Reason</string>
+    <string name="popup_penalization">Penalization</string>
 </resources>
