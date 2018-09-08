@@ -1,5 +1,6 @@
 package net.wilczak.freedivecomp.android.remote.messages;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -70,5 +71,10 @@ public class ReportActualResultDto {
     public ReportActualResultDto setJudgeComment(String judgeComment) {
         this.judgeComment = judgeComment;
         return this;
+    }
+
+    public ReportActualResultDto clone() {
+        Gson gson = new Gson();
+        return gson.fromJson(gson.toJsonTree(this, ReportActualResultDto.class), ReportActualResultDto.class);
     }
 }

@@ -45,9 +45,10 @@ public class EnterPerformanceUseCaseImpl implements EnterPerformanceUseCase {
                     if (!start.exists()) {
                         return Completable.error(new NoSuchElementException("Referenced start does not exist"));
                     }
+                    Start.StartState newState = localResult != null ? Start.StartState.PENDING : Start.StartState.READY;
                     Start updatedStart = start.mutate()
                             .setLocalResult(localResult)
-                            .setState(Start.StartState.PENDING)
+                            .setState(newState)
                             .freeze();
                     return repository
                             .merge(race, reference, updatedStart.freeze())

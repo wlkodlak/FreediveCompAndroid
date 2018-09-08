@@ -47,6 +47,11 @@
                 layout="@layout/item_enter_summary"
                 app:viewModel="@{viewModel}" />
 
+            <net.wilczak.freedivecomp.android.ui.utils.BindableSnackbar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:message="@{viewModel.snackbarMessage}"/>
+
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
