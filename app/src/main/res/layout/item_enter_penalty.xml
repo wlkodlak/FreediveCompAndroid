@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="net.wilczak.freedivecomp.android.ui.enterresult.EnterResultPenaltyViewModel" />
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/penalty_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/penalty_value"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@{viewModel.name}"
+            tools:text="Early start" />
+
+        <TextView
+            android:id="@+id/penalty_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/penalty_discard"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="8dp"
+            android:text="@{viewModel.value}"
+            tools:text="5p" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/penalty_discard"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/penalties_discard"
+            android:src="@drawable/ic_discard"
+            android:onClick="@{viewModel::onClick}"
+            app:tint="#f00"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

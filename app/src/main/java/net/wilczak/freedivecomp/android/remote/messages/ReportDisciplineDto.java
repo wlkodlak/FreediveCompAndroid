@@ -7,6 +7,8 @@ public class ReportDisciplineDto {
     private String disciplineId;
     @SerializedName("Name")
     private String name;
+    @SerializedName("Rules")
+    private String rules;
 
     public String getDisciplineId() {
         return disciplineId;
@@ -23,6 +25,15 @@ public class ReportDisciplineDto {
 
     public ReportDisciplineDto setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public String getRules() {
+        return rules;
+    }
+
+    public ReportDisciplineDto setRules(String rules) {
+        this.rules = rules;
         return this;
     }
 }

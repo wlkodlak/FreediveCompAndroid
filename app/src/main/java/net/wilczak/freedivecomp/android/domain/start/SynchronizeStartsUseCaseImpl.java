@@ -222,6 +222,7 @@ public class SynchronizeStartsUseCaseImpl implements SynchronizeStartsUseCase {
                 .setAthleteId(entryDto.getAthlete().getAthleteId())
                 .setDisciplineId(entryDto.getDiscipline().getDisciplineId())
                 .setDisciplineName(entryDto.getDiscipline().getName())
+                .setDisciplineRules(entryDto.getDiscipline().getRules())
                 .setAthlete(entryDto.getAthlete())
                 .setStartTimes(entryDto.getStart())
                 .setAnnouncement(entryDto.getAnnouncement().getPerformance())

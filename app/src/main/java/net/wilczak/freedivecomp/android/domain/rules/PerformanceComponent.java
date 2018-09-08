@@ -3,6 +3,7 @@ package net.wilczak.freedivecomp.android.domain.rules;
 import net.wilczak.freedivecomp.android.remote.messages.PerformanceDto;
 
 public class PerformanceComponent {
+    public static final PerformanceComponent Unknown = new PerformanceComponent(0);
     public static final PerformanceComponent Distance = new PerformanceComponent(1);
     public static final PerformanceComponent Depth = new PerformanceComponent(2);
     public static final PerformanceComponent Duration = new PerformanceComponent(3);
@@ -25,7 +26,7 @@ public class PerformanceComponent {
             case "Points":
                 return Points;
             default:
-                throw new IllegalArgumentException("Unknown component " + name);
+                return Unknown;
         }
     }
 
@@ -61,7 +62,7 @@ public class PerformanceComponent {
         }
     }
 
-    public PerformanceComponent set(PerformanceDto performanceDto, Double value) {
+    public void set(PerformanceDto performanceDto, Double value) {
         if (performanceDto != null) {
             switch (index) {
                 case 1:
@@ -82,6 +83,13 @@ public class PerformanceComponent {
                     break;
             }
         }
-        return this;
+    }
+
+    public static PerformanceComponent detect(PerformanceDto performanceDto) {
+        if (performanceDto == null) return null;
+        if (performanceDto.getDistance() != null) return Distance;
+        if (performanceDto.getDepth() != null) return Depth;
+        if (performanceDto.getDuration() != null) return Duration;
+        return Unknown;
     }
 }

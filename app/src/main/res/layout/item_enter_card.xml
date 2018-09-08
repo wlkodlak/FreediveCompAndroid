@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="net.wilczak.freedivecomp.android.ui.enterresult.EnterResultViewModel" />
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/card_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/card_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/card_white"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/card_button_white"
+            android:onClick="@{viewModel::onWhiteCardClick}"
+            android:text="@string/card_white"
+            android:alpha="@{viewModel.whiteCardAlpha}"
+            app:layout_constraintEnd_toStartOf="@+id/card_yellow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_title" />
+
+        <Button
+            android:id="@+id/card_yellow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/card_button_yellow"
+            android:onClick="@{viewModel::onYellowCardClick}"
+            android:text="@string/card_yellow"
+            android:alpha="@{viewModel.yellowCardAlpha}"
+            app:layout_constraintEnd_toStartOf="@+id/card_red"
+            app:layout_constraintStart_toEndOf="@+id/card_white"
+            app:layout_constraintTop_toBottomOf="@+id/card_title" />
+
+        <Button
+            android:id="@+id/card_red"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/card_button_red"
+            android:onClick="@{viewModel::onRedCardClick}"
+            android:text="@string/card_red"
+            android:alpha="@{viewModel.redCardAlpha}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/card_yellow"
+            app:layout_constraintTop_toBottomOf="@+id/card_title" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

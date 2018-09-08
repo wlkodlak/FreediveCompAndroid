@@ -9,6 +9,25 @@
             android:insetRight="5dp"
             android:insetTop="5dp">
             <shape android:shape="oval">
+                <solid android:color="#aaa" />
+                <size
+                    android:width="15dp"
+                    android:height="15dp" />
+                <stroke
+                    android:width="1dp"
+                    android:color="#777" />
+            </shape>
+        </inset>
+    </item>
+    <item
+        android:maxLevel="1"
+        android:minLevel="1">
+        <inset
+            android:insetBottom="5dp"
+            android:insetLeft="5dp"
+            android:insetRight="5dp"
+            android:insetTop="5dp">
+            <shape android:shape="oval">
                 <solid android:color="#0f0" />
                 <size
                     android:width="15dp"
@@ -20,8 +39,8 @@
         </inset>
     </item>
     <item
-        android:maxLevel="1"
-        android:minLevel="1">
+        android:maxLevel="2"
+        android:minLevel="2">
         <inset
             android:insetBottom="5dp"
             android:insetLeft="5dp"
@@ -39,8 +58,8 @@
         </inset>
     </item>
     <item
-        android:maxLevel="2"
-        android:minLevel="2">
+        android:maxLevel="3"
+        android:minLevel="3">
         <inset
             android:insetBottom="5dp"
             android:insetLeft="5dp"

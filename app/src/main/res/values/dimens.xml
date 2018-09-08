@@ -3,4 +3,5 @@
     <dimen name="startinglane_group_textSize">12sp</dimen>
     <dimen name="startinglane_level_padding">32dp</dimen>
     <dimen name="startinglane_leaf_textSize">24sp</dimen>
+    <dimen name="enterresult_guide_end">48dp</dimen>
 </resources>

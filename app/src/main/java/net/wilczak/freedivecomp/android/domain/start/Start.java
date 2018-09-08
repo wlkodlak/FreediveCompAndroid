@@ -14,6 +14,7 @@ public class Start {
     private String athleteId;
     private String disciplineId;
     private String disciplineName;
+    private String disciplineRules;
     private AthleteProfileDto athlete;
     private ReportStartTimesDto startTimes;
     private PerformanceDto announcement;
@@ -30,6 +31,7 @@ public class Start {
         this.athleteId = original.athleteId;
         this.disciplineId = original.disciplineId;
         this.disciplineName = original.disciplineName;
+        this.disciplineRules = original.disciplineRules;
         this.athlete = original.athlete;
         this.startTimes = original.startTimes;
         this.announcement = original.announcement;
@@ -63,6 +65,10 @@ public class Start {
 
     public String getDisciplineName() {
         return disciplineName;
+    }
+
+    public String getDisciplineRules() {
+        return disciplineRules;
     }
 
     public AthleteProfileDto getAthlete() {
@@ -126,6 +132,12 @@ public class Start {
     public Start setDisciplineName(String disciplineName) {
         assertMutable();
         this.disciplineName = disciplineName;
+        return this;
+    }
+
+    public Start setDisciplineRules(String disciplineRules) {
+        assertMutable();
+        this.disciplineRules = disciplineRules;
         return this;
     }
 

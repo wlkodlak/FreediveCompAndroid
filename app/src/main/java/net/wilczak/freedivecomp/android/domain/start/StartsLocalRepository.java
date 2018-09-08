@@ -68,6 +68,7 @@ public class StartsLocalRepository implements StartsRepository {
                     .setAthleteId(entity.getAthleteId())
                     .setDisciplineId(entity.getDisciplineId())
                     .setDisciplineName(startDto.getDiscipline().getName())
+                    .setDisciplineRules(startDto.getDiscipline().getRules())
                     .setAthlete(startDto.getAthlete())
                     .setStartTimes(startDto.getStart())
                     .setAnnouncement(startDto.getAnnouncement().getPerformance())
@@ -108,7 +109,7 @@ public class StartsLocalRepository implements StartsRepository {
     private StartEntity buildEntity(Race race, Start start) {
         StartingListReportEntryDto startDto = new StartingListReportEntryDto();
         startDto.setAthlete(start.getAthlete());
-        startDto.setDiscipline(new ReportDisciplineDto().setDisciplineId(start.getDisciplineId()).setName(start.getDisciplineName()));
+        startDto.setDiscipline(new ReportDisciplineDto().setDisciplineId(start.getDisciplineId()).setName(start.getDisciplineName()).setRules(start.getDisciplineRules()));
         startDto.setAnnouncement(new ReportAnnouncementDto().setPerformance(start.getAnnouncement()));
         startDto.setStart(start.getStartTimes());
         startDto.setCurrentResult(start.getConfirmedResult());

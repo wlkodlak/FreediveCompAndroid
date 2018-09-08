@@ -10,28 +10,19 @@ import net.wilczak.freedivecomp.android.remote.messages.CardResultDto;
 import net.wilczak.freedivecomp.android.remote.messages.PerformanceDto;
 import net.wilczak.freedivecomp.android.remote.messages.ReportActualResultDto;
 import net.wilczak.freedivecomp.android.ui.application.Localization;
+import net.wilczak.freedivecomp.android.ui.utils.PerformanceFormatter;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.PeriodFormatter;
-import org.joda.time.format.PeriodFormatterBuilder;
 
 public class StartingListItemViewModel extends BaseObservable {
     private final Start start;
-    private final Localization localization;
-    private final PeriodFormatter durationFormatter;
+    private final PerformanceFormatter performanceFormatter;
     private OnClickListener clickListener;
 
     public StartingListItemViewModel(Race race, Start start, Localization localization) {
         this.start = start;
-        this.localization = localization;
-        this.durationFormatter = new PeriodFormatterBuilder()
-                .minimumPrintedDigits(1)
-                .appendMinutes()
-                .appendSeparator(":")
-                .minimumPrintedDigits(2)
-                .appendSeconds()
-                .toFormatter();
+        this.performanceFormatter = new PerformanceFormatter(localization);
     }
 
     @Bindable
@@ -47,27 +38,14 @@ public class StartingListItemViewModel extends BaseObservable {
 
     @Bindable
     public String getAnnouncedPerformance() {
-        return formatPerformance(start.getAnnouncement());
+        return performanceFormatter.formatPerformance(start.getAnnouncement());
     }
 
     @Bindable
     public String getRealizedPerformance() {
-        return formatPerformance(getRealizedPerformanceUnformatted());
+        return performanceFormatter.formatPerformance(getRealizedPerformanceUnformatted());
     }
 
-    private String formatPerformance(PerformanceDto performance) {
-        if (performance == null) {
-            return null;
-        } else if (performance.getDepth() != null) {
-            return String.format(localization.getLocale(), "%fm", performance.getDepth());
-        } else if (performance.getDistance() != null) {
-            return String.format(localization.getLocale(), "%fm", performance.getDistance());
-        } else if (performance.getDuration() != null) {
-            return durationFormatter.print(performance.getDuration().toPeriod());
-        } else {
-            return null;
-        }
-    }
 
     private ReportActualResultDto getResult() {
         if (start.getLocalResult() != null) {
@@ -112,8 +90,10 @@ public class StartingListItemViewModel extends BaseObservable {
     public int getStatusLevel() {
         switch (start.getState()) {
             case REJECTED:
-                return 2;
+                return 3;
             case PENDING:
+                return 2;
+            case READY:
                 return 1;
             default:
                 return 0;
